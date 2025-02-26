@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://c5f6j57hyayss"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_mtgns"]
+[ext_resource type="Texture2D" uid="uid://cwq0gmaw2l2c" path="res://Assets/enemy.png" id="1_r3uro"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kj4ym"]
+atlas = ExtResource("1_r3uro")
+region = Rect2(1, 8, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qrbr4"]
+atlas = ExtResource("1_r3uro")
+region = Rect2(33, 8, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g6blo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kj4ym")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qrbr4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0a8ar"]
+radius = 3.33333
+height = 11.3333
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_50qjs"]
+radius = 1.81818
+height = 12.6667
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_mtgns")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 11)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_g6blo")
+offset = Vector2(-8.9407e-08, 0.333333)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+rotation = 1.5708
+scale = Vector2(3, 3)
+shape = SubResource("CapsuleShape2D_0a8ar")
+
+[node name="Area2D" type="Area2D" parent="."]
+scale = Vector2(3, 3)
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 3.445)
+rotation = 1.5708
+scale = Vector2(1.3, 1)
+shape = SubResource("CapsuleShape2D_50qjs")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

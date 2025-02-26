@@ -1,0 +1,65 @@
+[gd_scene load_steps=10 format=3 uid="uid://d3n5j0f5d7m2m"]
+
+[ext_resource type="Texture2D" uid="uid://c771obfv7amwb" path="res://Assets/CannonIdle.png" id="1_l3qbg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx6ga"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbsjw"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c6wnu"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pi7u2"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6qc6"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_os3yy"]
+atlas = ExtResource("1_l3qbg")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a0tpw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx6ga")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbsjw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c6wnu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pi7u2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i6qc6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_os3yy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gegra"]
+size = Vector2(15, 16)
+
+[node name="Canon" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a0tpw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_gegra")
