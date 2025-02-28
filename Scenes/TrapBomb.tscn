@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxsxxjdxr5ulq"]
+
+[ext_resource type="Texture2D" uid="uid://bgnj5hk2s8jyv" path="res://Assets/pixil-frame-0 (1).png" id="1_37l7h"]
+[ext_resource type="Texture2D" uid="uid://bd2y2uh6ymbyq" path="res://Assets/2204_w053_n004_37b_p1_37.jpg" id="2_bvs31"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xqmi1"]
+radius = 62.0081
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy5vi"]
+atlas = ExtResource("2_bvs31")
+region = Rect2(0, 0, 1427, 2000)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_htfdw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy5vi")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="TrapBomb" type="Node2D"]
+
+[node name="Pixil-frame-0(1)" type="Sprite2D" parent="."]
+scale = Vector2(1.28, 1.28)
+texture = ExtResource("1_37l7h")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 8)
+shape = SubResource("CircleShape2D_xqmi1")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.316
+one_shot = true
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_htfdw")

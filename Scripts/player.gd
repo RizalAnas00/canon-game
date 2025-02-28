@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 140.0
+const SPEED = 110.0
 const RUN_SPEED = 220.0
 const RUN_DURATION = 0.15 
 
