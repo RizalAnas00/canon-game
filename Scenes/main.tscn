@@ -1,12 +1,13 @@
-[gd_scene load_steps=21 format=4 uid="uid://dtvv523jp3jk8"]
+[gd_scene load_steps=23 format=4 uid="uid://dtvv523jp3jk8"]
 
 [ext_resource type="PackedScene" uid="uid://c5f6j57hyayss" path="res://Scenes/player.tscn" id="1_h7035"]
-[ext_resource type="Script" path="res://Scripts/main.gd" id="1_yhqyq"]
+[ext_resource type="Script" uid="uid://dngicfgrcwhd6" path="res://Scripts/main.gd" id="1_yhqyq"]
 [ext_resource type="Texture2D" uid="uid://dlg2uyn7diefa" path="res://Assets/Water.png" id="2_r4kg2"]
 [ext_resource type="Texture2D" uid="uid://cx0jcmbifs68k" path="res://Assets/Foam.png" id="3_ndhk1"]
 [ext_resource type="Texture2D" uid="uid://cemleduwdg0kf" path="res://Assets/Rocks_03.png" id="4_6aga2"]
 [ext_resource type="Texture2D" uid="uid://vou2adhcluo7" path="res://Assets/Rocks_02.png" id="5_80kit"]
 [ext_resource type="Texture2D" uid="uid://bf4kcf35m3c40" path="res://Assets/Tilemap_Flat.png" id="6_iiels"]
+[ext_resource type="Texture2D" uid="uid://6jappvbsd2mo" path="res://Assets/asset_real/tiles mod.png" id="7_1vwt0"]
 [ext_resource type="PackedScene" uid="uid://c20r6ew25sq3s" path="res://Scenes/missile.tscn" id="8_guyaa"]
 [ext_resource type="PackedScene" uid="uid://d3n5j0f5d7m2m" path="res://Scenes/canon.tscn" id="9_vhkgj"]
 [ext_resource type="FontFile" uid="uid://dd52804p75ocq" path="res://Assets/fonts/Jersey10-Regular.ttf" id="10_lsgpy"]
@@ -66,6 +67,10 @@ tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_pymuc")
 sources/2 = SubResource("TileSetAtlasSource_qgrhp")
 sources/3 = SubResource("TileSetAtlasSource_rlcj2")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ojq57"]
+texture = ExtResource("7_1vwt0")
+texture_region_size = Vector2i(32, 32)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_stlsp"]
 texture = ExtResource("6_iiels")
@@ -272,6 +277,7 @@ terrain_set_1/mode = 0
 terrain_set_1/terrain_0/name = "Terrain 0"
 terrain_set_1/terrain_0/color = Color(0.3006, 0.128716, 1, 1)
 sources/1 = SubResource("TileSetAtlasSource_stlsp")
+sources/0 = SubResource("TileSetAtlasSource_ojq57")
 
 [sub_resource type="Curve2D" id="Curve2D_aihrg"]
 _data = {
@@ -285,9 +291,11 @@ font_size = 54
 shadow_size = 50
 
 [node name="Main" type="Node2D" groups=["missile_scene"]]
-position = Vector2(580, 328)
 script = ExtResource("1_yhqyq")
+missile_speed = Vector2(260, 300)
 missile_scene = ExtResource("8_guyaa")
+spawn_interval = 0.5
+min_spawn_interval = 0.2
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, 36)
@@ -315,28 +323,26 @@ curve = SubResource("Curve2D_aihrg")
 position = Vector2(-541, -291)
 rotation = 0.0111557
 
+[node name="Missiles" type="Node2D" parent="."]
+
+[node name="Missiles" parent="Missiles" instance=ExtResource("8_guyaa")]
+position = Vector2(-540, -290)
+
 [node name="Canon" parent="." instance=ExtResource("9_vhkgj")]
 position = Vector2(-201, 200)
 rotation = 0.785398
-scale = Vector2(6, 6)
 
 [node name="Canon2" parent="." instance=ExtResource("9_vhkgj")]
 position = Vector2(207, -145)
 rotation = 3.92699
-scale = Vector2(6, 6)
 
 [node name="Canon3" parent="." instance=ExtResource("9_vhkgj")]
 position = Vector2(207, 204)
 rotation = -0.785398
-scale = Vector2(6, 6)
 
 [node name="Canon4" parent="." instance=ExtResource("9_vhkgj")]
-position = Vector2(-196, -135)
+position = Vector2(-207, -146)
 rotation = -3.92699
-scale = Vector2(6, 6)
-
-[node name="Missiles" parent="." instance=ExtResource("8_guyaa")]
-position = Vector2(-540, -290)
 
 [node name="Countdown" type="Label" parent="."]
 z_index = 1

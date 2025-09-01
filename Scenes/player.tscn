@@ -1,50 +1,65 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5f6j57hyayss"]
+[gd_scene load_steps=10 format=3 uid="uid://c5f6j57hyayss"]
 
-[ext_resource type="Script" path="res://Scripts/player.gd" id="1_mtgns"]
-[ext_resource type="Texture2D" uid="uid://cwq0gmaw2l2c" path="res://Assets/enemy.png" id="1_r3uro"]
+[ext_resource type="Script" uid="uid://664ncrgaa48h" path="res://Scripts/player.gd" id="1_mtgns"]
+[ext_resource type="Texture2D" uid="uid://becuw6eg7bduy" path="res://Assets/asset_real/char anim.png" id="2_0nyrg"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kj4ym"]
-atlas = ExtResource("1_r3uro")
-region = Rect2(1, 8, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcdk6"]
+atlas = ExtResource("2_0nyrg")
+region = Rect2(0, 0, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qrbr4"]
-atlas = ExtResource("1_r3uro")
-region = Rect2(33, 8, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_7pmeq"]
+atlas = ExtResource("2_0nyrg")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_witql"]
+atlas = ExtResource("2_0nyrg")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k47k5"]
+atlas = ExtResource("2_0nyrg")
+region = Rect2(144, 0, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_g6blo"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_kj4ym")
+"texture": SubResource("AtlasTexture_wcdk6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qrbr4")
+"texture": SubResource("AtlasTexture_7pmeq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_witql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k47k5")
 }],
 "loop": true,
-"name": &"default",
+"name": &"walk",
 "speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0a8ar"]
-radius = 3.33333
-height = 11.3333
+radius = 2.0
+height = 9.33333
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_50qjs"]
-radius = 1.81818
-height = 12.6667
+radius = 1.28205
+height = 9.33333
 
 [node name="Player" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 motion_mode = 1
 script = ExtResource("1_mtgns")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 11)
-scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_g6blo")
+animation = &"walk"
 offset = Vector2(-8.9407e-08, 0.333333)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 10)
+position = Vector2(3.63798e-12, 12)
 rotation = 1.5708
 scale = Vector2(3, 3)
 shape = SubResource("CapsuleShape2D_0a8ar")
@@ -55,7 +70,7 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 3.445)
+position = Vector2(-1.31795e-12, 4)
 rotation = 1.5708
 scale = Vector2(1.3, 1)
 shape = SubResource("CapsuleShape2D_50qjs")

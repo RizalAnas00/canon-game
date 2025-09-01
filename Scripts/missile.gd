@@ -2,17 +2,42 @@ extends Area2D
 
 var player:CharacterBody2D
 var velocity: Vector2 = Vector2.ZERO
+#var posExit: Vector2
+#var velocExit: Vector2
+signal send_exit
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position += velocity * delta  # Menggerakkan misil berdasarkan kecepatan
+	position += velocity * delta
 
+	#var viewport_rect = get_viewport_rect()
+	#print("viewport : ", viewport_rect)
+	#if not viewport_rect.has_point(global_position):
+		#queue_free()
+		#
 func _on_body_entered(body: Node) -> void:
 	print("Collided with: ", body.name)
 	if body is CharacterBody2D:
 		print("It's a CharacterBody2D")
 		queue_free()
+		
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	#posExit = global_position
+	#velocExit = velocity
+	send_exit.emit()
+	
+	#print("pos when exit : ", posExit)
+	#print("velocity when exit : ", velocExit)
+	#
+#func get_pos_velocity_exit() -> String:
+	#var data := {
+		#"posExit": {"x": posExit.x, "y": posExit.y},
+		#"velocExit": {"x": velocExit.x, "y": velocExit.y}
+	#}
+	#return JSON.stringify(data)
+
+	
