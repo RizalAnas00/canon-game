@@ -37,6 +37,9 @@ func _ready() -> void:
 	set_spawn_interval = spawn_interval
 	set_min_spawn_interval = min_spawn_interval
 	
+	timer = Timer.new()
+	reverse_timer = Timer.new()
+	
 	# Timer 10s
 	game_time.wait_time = 10
 	game_time.start()
@@ -58,37 +61,57 @@ func _process(delta: float) -> void:
 			_start_spawn_phase()
 		
 		# in 5 seconds, spawn the out missile to inside again / reverse
-		if game_time.time_left <= 5 and has_spawn_started:
-			if not has_reset_interval:
-				spawn_interval = set_spawn_interval
-				min_spawn_interval = set_min_spawn_interval
-				has_reset_interval = true
-				
-			start_reversing = true
-			_reverse_missiles()
-			player.set_run_speed(1000.0)
-
+		if game_time.time_left <= 5 and has_spawn_started and not has_reset_interval:
+			_start_reverse_phase()
+			
 	if game_time.time_left == 0 :
 		print("get count of new missiles child : ", missiles.get_child_count())
 		game_time.stop()
 		
 	# Canon always point to player
 	for c in [canon, canon_2, canon_3, canon_4]:
-		c.rotation = (player.global_position - c.global_position).angle()
+		if not start_reversing:
+			# Normal phase: kejar player
+			c.rotation = (player.global_position - c.global_position).angle()
+		else:
+			# Reverse phase: cari misil yang menuju canon ini
+			var target_missile = null
+			for m in missiles.get_children():
+				if m is Area2D:
+					print(" m : ", m.name)
+					# cek apakah misil mengarah ke canon ini (target pos sudah kamu simpan di stored_missiles["target"])
+					if (c.global_position - m.global_position).length() < 500: # radius biar ga semua canon ikutin
+						target_missile = m
+						break
+			
+			if target_missile:
+				c.rotation = (target_missile.global_position - c.global_position).angle()
 
 func _start_spawn_phase() -> void:
 	has_spawn_started = true
 	start_reversing = false
 	
-	timer = Timer.new()
 	timer.wait_time = spawn_interval
 	timer.autostart = true
 	timer.timeout.connect(_spawn_missile)
 	add_child(timer)
+	
+func _start_reverse_phase():
+	spawn_interval = set_spawn_interval
+	min_spawn_interval = set_min_spawn_interval
+	#print("spawn interval NOW : ", spawn_interval)
+	has_reset_interval = true
+				
+	start_reversing = true
+	reverse_timer.wait_time = spawn_interval
+	reverse_timer.autostart = true
+	reverse_timer.timeout.connect(_reverse_missiles)
+	add_child(reverse_timer)
+	player.set_run_speed(1000.0)
 
 func _spawn_missile() -> void:
 	if not start_reversing:
-		if game_time.time_left <= 8:
+		if game_time.time_left <= 5.8:
 			return
 			
 		if not missile_scene:
@@ -150,8 +173,7 @@ func _reverse_missiles() -> void:
 		else:
 			return
 	
-	while not reverse_queue.is_empty():
-		_spawn_reverse_missile()
+	_spawn_reverse_missile()
 	
 func _spawn_reverse_missile() -> void:
 	if reverse_queue.is_empty():
@@ -160,10 +182,6 @@ func _spawn_reverse_missile() -> void:
 	var missile_data = reverse_queue.pop_front()
 	var new_missile = missile_scene.instantiate()
 	new_missile.global_position = missile_data["position"]
-	
-	# pick canon sebagai target akhir
-	var canon_list = [canon, canon_2, canon_3, canon_4]
-	var target_canon = canon_list[randi() % canon_list.size()]
 	
 	# arahkan ke canon
 	var direction_vector = (missile_data["target"] - new_missile.global_position).normalized()
@@ -174,7 +192,7 @@ func _spawn_reverse_missile() -> void:
 	
 	# interval juga dipercepat sama seperti forward spawn
 	spawn_interval = max(spawn_interval - 0.1, min_spawn_interval)
-	timer.wait_time = spawn_interval
+	reverse_timer.wait_time = spawn_interval
 	print("Reverse Missile Spawned. Updated Spawn Interval:", spawn_interval)
 	
 func _on_player_hit() -> void:

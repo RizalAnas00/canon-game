@@ -281,9 +281,9 @@ sources/0 = SubResource("TileSetAtlasSource_ojq57")
 
 [sub_resource type="Curve2D" id="Curve2D_aihrg"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -541, -291, 0, 0, 0, 0, 445, -280, 0, 0, 0, 0, 447, 317, 0, 0, 0, 0, -538, 319, 0, 0, 0, 0, -541, 8, 0, 0, 0, 0, -541, -292)
+"points": PackedVector2Array(0, 0, 0, 0, -541, -291, 0, 0, 0, 0, 542, -298, 0, 0, 0, 0, 539, 15, 0, 0, 0, 0, 537, 314, 0, 0, 0, 0, -538, 319, 0, 0, 0, 0, -541, 8, 0, 0, 0, 0, -541, -292)
 }
-point_count = 6
+point_count = 7
 
 [sub_resource type="LabelSettings" id="LabelSettings_f4f73"]
 font = ExtResource("10_lsgpy")
@@ -294,7 +294,7 @@ shadow_size = 50
 script = ExtResource("1_yhqyq")
 missile_speed = Vector2(260, 300)
 missile_scene = ExtResource("8_guyaa")
-spawn_interval = 0.5
+spawn_interval = 0.6
 min_spawn_interval = 0.2
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -306,7 +306,7 @@ tile_map_data = PackedByteArray("AAD8//z/AAAAAAAAAAD7//z/AAAAAAAAAAD7//v/AAAAAAA
 tile_set = SubResource("TileSet_jq154")
 
 [node name="Foam" type="TileMapLayer" parent="Water"]
-tile_map_data = PackedByteArray("AAD8/wMAAAAAAAAAAAADAAMAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAP//AAAAAAAAAAADAP7/AAAAAAAAAAADAP3/AAAAAAAAAAD8//3/AAAAAAAAAAD8//7/AAAAAAAAAAD8////AAAAAAAAAAD8/wAAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD6/wAAAgAAAAAAAAAIAPv/AgAAAAAAAAAGAAUAAgAAAAAAAAD9//3/AAAAAAAAAAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAAAAP3/AAAAAAAAAAABAP3/AAAAAAAAAAACAP3/AAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAMAAAAAAAAAAAD//wMAAAAAAAAAAAD+/wMAAAAAAAAAAAD9/wMAAAAAAAAAAAD5/wAAAwAAAAAAAAD8//v/AwAAAAAAAAD8/wUAAwAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD8/wMAAAAAAAAAAAADAAMAAAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAP//AAAAAAAAAAADAP7/AAAAAAAAAAADAP3/AAAAAAAAAAD8//3/AAAAAAAAAAD8//7/AAAAAAAAAAD8////AAAAAAAAAAD8/wAAAAAAAAAAAAD8/wEAAAAAAAAAAAD8/wIAAAAAAAAAAAD6/wAAAgAAAAAAAAD9//3/AAAAAAAAAAD+//3/AAAAAAAAAAD///3/AAAAAAAAAAAAAP3/AAAAAAAAAAABAP3/AAAAAAAAAAACAP3/AAAAAAAAAAACAAMAAAAAAAAAAAABAAMAAAAAAAAAAAAAAAMAAAAAAAAAAAD//wMAAAAAAAAAAAD+/wMAAAAAAAAAAAD9/wMAAAAAAAAAAAD5/wAAAwAAAAAAAAD8//v/AwAAAAAAAAAFAAMAAgAAAAAAAAD9/wQAAwAAAAAAAAAFAPz/AwAAAAAAAAAEAPv/AgAAAAAAAAA=")
 tile_set = SubResource("TileSet_5nroq")
 
 [node name="Land" type="TileMapLayer" parent="."]
@@ -321,7 +321,7 @@ curve = SubResource("Curve2D_aihrg")
 
 [node name="MissileSpawn" type="PathFollow2D" parent="MissilePath"]
 position = Vector2(-541, -291)
-rotation = 0.0111557
+rotation = -0.00646344
 
 [node name="Missiles" type="Node2D" parent="."]
 
