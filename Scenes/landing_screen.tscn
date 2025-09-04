@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=3 uid="uid://crj1xioex5d3t"]
+
+[ext_resource type="FontFile" uid="uid://dd52804p75ocq" path="res://Assets/fonts/Jersey10-Regular.ttf" id="1_u6ied"]
+
+[sub_resource type="Theme" id="Theme_tatoc"]
+default_font = ExtResource("1_u6ied")
+default_font_size = 27
+
+[sub_resource type="Gradient" id="Gradient_ripjw"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.979405, 0.979405, 0.979405, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rfn20"]
+gradient = SubResource("Gradient_ripjw")
+width = 24
+height = 24
+fill_to = Vector2(1, 1)
+
+[sub_resource type="Gradient" id="Gradient_0mm45"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.976471, 0.976471, 0.976471, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_88uyw"]
+gradient = SubResource("Gradient_0mm45")
+width = 24
+height = 24
+fill_from = Vector2(0.0412371, 1)
+
+[node name="LandingScreen" type="Node"]
+
+[node name="ItemList" type="ItemList" parent="."]
+offset_left = 7.0
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 652.0
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_tatoc")
+select_mode = 1
+allow_reselect = true
+max_text_lines = 2
+item_count = 2
+item_0/text = "wadwadwdwdwadddddddddddddddddddddddddddddddddddddddd"
+item_0/icon = SubResource("GradientTexture2D_rfn20")
+item_1/text = "awdwadwadwadwadwdagdrgrgrg"
+item_1/icon = SubResource("GradientTexture2D_88uyw")
+item_1/disabled = true
