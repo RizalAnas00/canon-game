@@ -4,12 +4,14 @@ var player:CharacterBody2D
 var velocity: Vector2 = Vector2.ZERO
 #var posExit: Vector2
 #var velocExit: Vector2
+var belong_to: String = "canon"
 signal send_exit
+@onready var missiles: Area2D = $"."
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-
+	missiles.add_to_group("missile_scene")
+	print(" group name of missiles : ", get_groups())
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	position += velocity * delta
@@ -39,5 +41,12 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 		#"velocExit": {"x": velocExit.x, "y": velocExit.y}
 	#}
 	#return JSON.stringify(data)
-
 	
+func set_belongs_to(canon_name: String) -> void:
+	belong_to = canon_name
+	
+func get_belongs_to() -> String:
+	return belong_to
+	
+func set_reverse_collision() -> void:
+	collision_layer = 1

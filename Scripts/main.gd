@@ -68,24 +68,33 @@ func _process(delta: float) -> void:
 		print("get count of new missiles child : ", missiles.get_child_count())
 		game_time.stop()
 		
-	# Canon always point to player
+	# Canon always point to player / or to reverse missiles that belong to them
 	for c in [canon, canon_2, canon_3, canon_4]:
 		if not start_reversing:
-			# Normal phase: kejar player
+			# Normal phase: lock player
 			c.rotation = (player.global_position - c.global_position).angle()
 		else:
-			# Reverse phase: cari misil yang menuju canon ini
+			# Reverse phase: find missile that 'belongs_to' this canon
 			var target_missile = null
+			var best_dist = 1e20
+
 			for m in missiles.get_children():
-				if m is Area2D:
-					print(" m : ", m.name)
-					# cek apakah misil mengarah ke canon ini (target pos sudah kamu simpan di stored_missiles["target"])
-					if (c.global_position - m.global_position).length() < 500: # radius biar ga semua canon ikutin
+				if not is_instance_valid(m):
+					continue
+					
+				var owner_name = m.get_belongs_to()
+				if owner_name == c.name:
+					var d = c.global_position.distance_to(m.global_position)
+					if d < best_dist:
+						best_dist = d
 						target_missile = m
-						break
-			
+
 			if target_missile:
-				c.rotation = (target_missile.global_position - c.global_position).angle()
+				# direct snap to missile
+				#c.rotation = (target_missile.global_position - c.global_position).angle()
+				# smooth rotation
+				var target_ang = (target_missile.global_position - c.global_position).angle()
+				c.rotation = lerp_angle(c.rotation, target_ang, clamp(delta * 8.0, 0.0, 1.0))
 
 func _start_spawn_phase() -> void:
 	has_spawn_started = true
@@ -120,7 +129,7 @@ func _spawn_missile() -> void:
 		
 		# pick random canon as spawnpoint
 		var canon_list = [canon, canon_2, canon_3, canon_4]
-		var spawn_canon = canon_list[randi() % canon_list.size()]
+		var spawn_canon: CharacterBody2D = canon_list[randi() % canon_list.size()]
 
 		# Take position from Marker2D inside of canon scene
 		var missile_spawn_marker = spawn_canon.get_node_or_null("MissileSpawn")
@@ -145,7 +154,7 @@ func _spawn_missile() -> void:
 		spawn_canon.shoot()
 
 		# Save last position before out of screen
-		new_missile.connect("send_exit", Callable(self, "_on_missile_exiting").bind(new_missile, spawn_canon.global_position))
+		new_missile.connect("send_exit", Callable(self, "_on_missile_exiting").bind(new_missile, spawn_canon.global_position, spawn_canon.name))
 		
 		# Add missile to main node
 		missiles.add_child(new_missile)
@@ -155,13 +164,14 @@ func _spawn_missile() -> void:
 		timer.wait_time = spawn_interval
 		print("Updated Spawn Interval:", spawn_interval)
 
-func _on_missile_exiting(missile, canon_pos: Vector2) -> void:
+func _on_missile_exiting(missile, canon_pos: Vector2, canon_name: String) -> void:
 	if is_instance_valid(missile):
 		print("Missile exited at position:", missile.global_position)
 		stored_missiles.append({
 			"position": missile.global_position,
 			"velocity": missile.velocity,
-			"target" : canon_pos
+			"target" : canon_pos,
+			"canon_name" : canon_name
 		})
 		missile.queue_free()
 
@@ -189,6 +199,8 @@ func _spawn_reverse_missile() -> void:
 	new_missile.velocity = direction_vector * missile_data["velocity"].length()
 	
 	missiles.add_child(new_missile)
+	new_missile.set_belongs_to(missile_data["canon_name"])
+	new_missile.set_reverse_collision()
 	
 	# interval juga dipercepat sama seperti forward spawn
 	spawn_interval = max(spawn_interval - 0.1, min_spawn_interval)
